@@ -310,7 +310,7 @@ const App = () => {
               <circle
                 key={idx}
                 cx={point.x}
-                cy={Math.min(point.y, 180)} // Keep particles in upper area
+                cy={Math.min(point.y, 140)} // Keep particles in upper area only, away from progress bar
                 r={2}
                 fill="#8B5CF6"
                 opacity={noiseIntensity * 0.3}
@@ -337,8 +337,8 @@ const App = () => {
             </g>
           </svg>
           
-          <div style={{ position: 'absolute', bottom: '12px', left: '16px', right: '16px' }}>
-            <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px', padding: '10px', backdropFilter: 'blur(10px)' }}>
+          <div style={{ position: 'absolute', bottom: '16px', left: '20px', right: '20px' }}>
+            <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.98)', borderRadius: '8px', padding: '12px', backdropFilter: 'blur(10px)', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}>
               <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>
                 {language === 'ko' ? 
                   `노이즈 제거 단계: ${animationStep}/${maxSteps}` :
