@@ -860,8 +860,9 @@ const App = () => {
         position: 'fixed', 
         top: '16px', 
         right: '16px', 
-        display: 'flex', 
-        gap: '8px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6px',
         zIndex: 9999,
         backgroundColor: 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(10px)',
@@ -869,60 +870,25 @@ const App = () => {
         padding: '8px',
         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
       }}>
-        <button
-          onClick={() => setAdvancedMode(!advancedMode)}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            padding: '8px 12px',
-            backgroundColor: advancedMode ? '#3B82F6' : 'white',
-            color: advancedMode ? 'white' : '#374151',
-            border: '1px solid #E5E7EB',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
-          }}
-        >
-          <Brain size={16} />
-          {t.advanced}
-        </button>
-        <button
-          onClick={() => setShowReferences(true)}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            padding: '8px 12px',
-            backgroundColor: 'white',
-            border: '1px solid #E5E7EB',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
-          }}
-        >
-          <BookOpen size={16} />
-          {t.references}
-        </button>
+        {/* Language buttons - first row */}
         <div style={{
           display: 'flex',
           backgroundColor: 'white',
           borderRadius: '8px',
           border: '1px solid #E5E7EB',
           overflow: 'hidden',
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)'
         }}>
           <button
             onClick={() => setLanguage('en')}
             style={{
-              padding: '8px 12px',
+              padding: '6px 10px',
               backgroundColor: language === 'en' ? '#3B82F6' : 'white',
               color: language === 'en' ? 'white' : '#374151',
               border: 'none',
               cursor: 'pointer',
-              fontSize: '14px'
+              fontSize: '13px',
+              fontWeight: '500'
             }}
           >
             EN
@@ -930,14 +896,15 @@ const App = () => {
           <button
             onClick={() => setLanguage('ko')}
             style={{
-              padding: '8px 12px',
+              padding: '6px 10px',
               backgroundColor: language === 'ko' ? '#3B82F6' : 'white',
               color: language === 'ko' ? 'white' : '#374151',
               border: 'none',
               borderLeft: '1px solid #E5E7EB',
               borderRight: '1px solid #E5E7EB',
               cursor: 'pointer',
-              fontSize: '14px'
+              fontSize: '13px',
+              fontWeight: '500'
             }}
           >
             한국어
@@ -945,15 +912,61 @@ const App = () => {
           <button
             onClick={() => setLanguage('zh')}
             style={{
-              padding: '8px 12px',
+              padding: '6px 10px',
               backgroundColor: language === 'zh' ? '#3B82F6' : 'white',
               color: language === 'zh' ? 'white' : '#374151',
               border: 'none',
               cursor: 'pointer',
-              fontSize: '14px'
+              fontSize: '13px',
+              fontWeight: '500'
             }}
           >
             中文
+          </button>
+        </div>
+
+        {/* Advanced and References buttons - second row */}
+        <div style={{ display: 'flex', gap: '6px' }}>
+          <button
+            onClick={() => setAdvancedMode(!advancedMode)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '3px',
+              padding: '6px 10px',
+              backgroundColor: advancedMode ? '#3B82F6' : 'white',
+              color: advancedMode ? 'white' : '#374151',
+              border: '1px solid #E5E7EB',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: '500',
+              boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+              flex: 1
+            }}
+          >
+            <Brain size={14} />
+            {t.advanced}
+          </button>
+          <button
+            onClick={() => setShowReferences(true)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '3px',
+              padding: '6px 10px',
+              backgroundColor: 'white',
+              border: '1px solid #E5E7EB',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: '500',
+              boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+              flex: 1
+            }}
+          >
+            <BookOpen size={14} />
+            {t.references}
           </button>
         </div>
       </div>
