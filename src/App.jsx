@@ -911,18 +911,12 @@ const App = () => {
           <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px' }}>
             {t.sections[activeSection].title}
           </h2>
-          <p style={{ color: '#6B7280', marginBottom: '24px' }}>
+          <p style={{ color: '#6B7280', marginBottom: '16px' }}>
             {t.sections[activeSection].subtitle}
           </p>
 
-          <div style={{ marginBottom: '24px' }}>
-            {activeSection === 0 && renderLLMAnimation()}
-            {activeSection === 1 && renderDiffusionAnimation()}
-            {activeSection === 2 && renderDiffusionLLMAnimation()}
-          </div>
-
           {/* Controls */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginTop: '32px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginBottom: '24px' }}>
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               style={{
@@ -970,6 +964,12 @@ const App = () => {
               <RotateCcw size={20} />
               <span>{t.reset}</span>
             </button>
+          </div>
+
+          <div style={{ marginBottom: '24px' }}>
+            {activeSection === 0 && renderLLMAnimation()}
+            {activeSection === 1 && renderDiffusionAnimation()}
+            {activeSection === 2 && renderDiffusionLLMAnimation()}
           </div>
         </div>
 
