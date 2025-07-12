@@ -363,41 +363,40 @@ const App = () => {
 
         {advancedMode && (
           <div style={{ backgroundColor: '#FAF5FF', padding: '16px', borderRadius: '8px', border: '1px solid #E9D5FF' }}>
-            <p style={{ fontWeight: '600', marginBottom: '12px', color: '#6B21A8' }}>Text Diffusion Process - How it Works:</p>
+            <p style={{ fontWeight: '600', marginBottom: '12px', color: '#6B21A8' }}>Image Diffusion Process - Visual Breakdown:</p>
             
             {/* Forward Process */}
             <div style={{ marginBottom: '16px' }}>
               <p style={{ fontSize: '14px', fontWeight: '600', color: '#8B5CF6', marginBottom: '8px' }}>Forward Process (Training):</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 {[
-                  { text: '"The cat sleeps"', level: 0, label: 'Original Text' },
-                  { text: '"The c&t sl##ps"', level: 1, label: '25% corrupted' },
-                  { text: '"T## #&t ##e#ps"', level: 2, label: '50% corrupted' },
-                  { text: '"### ### #####"', level: 3, label: '75% corrupted' },
-                  { text: '"############"', level: 4, label: 'Pure noise' }
+                  { emoji: '🐱', level: 0, label: 'Clear Cat' },
+                  { emoji: '🐱', level: 1, label: '25% noisy', blur: 1 },
+                  { emoji: '🐱', level: 2, label: '50% noisy', blur: 2 },
+                  { emoji: '🌫️', level: 3, label: '75% noisy', blur: 3 },
+                  { emoji: '⚪', level: 4, label: 'Pure noise' }
                 ].map((item, idx) => (
                   <div key={idx} style={{ textAlign: 'center', flex: 1 }}>
                     <div style={{ 
-                      padding: '8px', 
-                      backgroundColor: `rgba(139, 92, 246, ${0.1 + item.level * 0.2})`,
-                      borderRadius: '6px',
-                      border: `2px solid rgba(139, 92, 246, ${0.3 + item.level * 0.2})`,
+                      padding: '12px', 
+                      backgroundColor: `rgba(139, 92, 246, ${0.1 + item.level * 0.15})`,
+                      borderRadius: '8px',
+                      border: `2px solid rgba(139, 92, 246, ${0.3 + item.level * 0.15})`,
                       marginBottom: '4px',
-                      minHeight: '40px',
+                      minHeight: '50px',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center'
+                      justifyContent: 'center',
+                      filter: item.blur ? `blur(${item.blur}px)` : 'none'
                     }}>
-                      <p style={{ fontSize: '11px', fontWeight: '600', color: '#5B21B6', fontFamily: 'monospace' }}>
-                        {item.text}
-                      </p>
+                      <span style={{ fontSize: '24px' }}>{item.emoji}</span>
                     </div>
                     <p style={{ fontSize: '9px', color: '#8B5CF6' }}>{item.label}</p>
                   </div>
                 ))}
               </div>
               <p style={{ fontSize: '11px', color: '#8B5CF6', textAlign: 'center' }}>
-                → Gradually corrupt text by masking/replacing tokens with noise
+                → Gradually add Gaussian noise until image becomes pure noise
               </p>
             </div>
 
@@ -406,42 +405,41 @@ const App = () => {
               <p style={{ fontSize: '14px', fontWeight: '600', color: '#10B981', marginBottom: '8px' }}>Reverse Process (Generation):</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 {[
-                  { text: '"############"', level: 0, label: 'Start with noise' },
-                  { text: '"T## d&g #####"', level: 1, label: '25% clear' },
-                  { text: '"The d&g runs"', level: 2, label: '50% clear' },
-                  { text: '"The dog runs"', level: 3, label: '75% clear' },
-                  { text: '"The dog runs"', level: 4, label: 'New text!' }
+                  { emoji: '⚪', level: 0, label: 'Start noise' },
+                  { emoji: '🌫️', level: 1, label: '25% clear', blur: 3 },
+                  { emoji: '🐕', level: 2, label: '50% clear', blur: 2 },
+                  { emoji: '🐕', level: 3, label: '75% clear', blur: 1 },
+                  { emoji: '🐕', level: 4, label: 'New dog!' }
                 ].map((item, idx) => (
                   <div key={idx} style={{ textAlign: 'center', flex: 1 }}>
                     <div style={{ 
-                      padding: '8px', 
-                      backgroundColor: `rgba(16, 185, 129, ${0.1 + (4-item.level) * 0.2})`,
-                      borderRadius: '6px',
-                      border: `2px solid rgba(16, 185, 129, ${0.3 + (4-item.level) * 0.2})`,
+                      padding: '12px', 
+                      backgroundColor: `rgba(16, 185, 129, ${0.1 + (4-item.level) * 0.15})`,
+                      borderRadius: '8px',
+                      border: `2px solid rgba(16, 185, 129, ${0.3 + (4-item.level) * 0.15})`,
                       marginBottom: '4px',
-                      minHeight: '40px',
+                      minHeight: '50px',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center'
+                      justifyContent: 'center',
+                      filter: item.blur ? `blur(${item.blur}px)` : 'none'
                     }}>
-                      <p style={{ fontSize: '11px', fontWeight: '600', color: '#047857', fontFamily: 'monospace' }}>
-                        {item.text}
-                      </p>
+                      <span style={{ fontSize: '24px' }}>{item.emoji}</span>
                     </div>
                     <p style={{ fontSize: '9px', color: '#10B981' }}>{item.label}</p>
                   </div>
                 ))}
               </div>
               <p style={{ fontSize: '11px', color: '#10B981', textAlign: 'center' }}>
-                ← Model predicts original tokens step by step, creating NEW coherent text
+                ← Neural network removes noise step by step, generating new images
               </p>
             </div>
 
             <div style={{ backgroundColor: '#F3E8FF', padding: '8px', borderRadius: '4px', fontSize: '12px', color: '#6B21A8' }}>
-              <p><strong>Key Insight:</strong> Notice how we started with "cat sleeps" but generated "dog runs"!</p>
-              <p>• <strong>Training:</strong> Learn to predict which tokens were corrupted at each noise level</p>
-              <p>• <strong>Generation:</strong> Start with random noise, iteratively predict clean tokens</p>
-              <p>• <strong>Result:</strong> Generates completely new, grammatically correct sentences</p>
+              <p><strong>Key Insight:</strong> Started with a cat image, but generated a new dog!</p>
+              <p>• <strong>Training:</strong> Learn to predict and remove noise at each step</p>
+              <p>• <strong>Generation:</strong> Start with random noise, iteratively denoise</p>
+              <p>• <strong>Result:</strong> Can generate photorealistic images of any trained concept</p>
             </div>
           </div>
         )}
@@ -583,6 +581,91 @@ const App = () => {
               <p>• Parallel processing: all positions refined simultaneously</p>
               <p>• Better global coherence and consistency</p>
               <p>• Can fix errors anywhere in the sequence</p>
+            </div>
+          </div>
+        )}
+
+        {advancedMode && (
+          <div style={{ backgroundColor: '#F0FDF4', padding: '16px', borderRadius: '8px', border: '1px solid #BBF7D0', marginBottom: '16px' }}>
+            <p style={{ fontWeight: '600', marginBottom: '12px', color: '#14532D' }}>Text Diffusion Process - How it Works:</p>
+            
+            {/* Forward Process */}
+            <div style={{ marginBottom: '16px' }}>
+              <p style={{ fontSize: '14px', fontWeight: '600', color: '#8B5CF6', marginBottom: '8px' }}>Forward Process (Training):</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                {[
+                  { text: '"The cat sleeps"', level: 0, label: 'Original Text' },
+                  { text: '"The c&t sl##ps"', level: 1, label: '25% corrupted' },
+                  { text: '"T## #&t ##e#ps"', level: 2, label: '50% corrupted' },
+                  { text: '"### ### #####"', level: 3, label: '75% corrupted' },
+                  { text: '"############"', level: 4, label: 'Pure noise' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{ textAlign: 'center', flex: 1 }}>
+                    <div style={{ 
+                      padding: '8px', 
+                      backgroundColor: `rgba(139, 92, 246, ${0.1 + item.level * 0.2})`,
+                      borderRadius: '6px',
+                      border: `2px solid rgba(139, 92, 246, ${0.3 + item.level * 0.2})`,
+                      marginBottom: '4px',
+                      minHeight: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <p style={{ fontSize: '11px', fontWeight: '600', color: '#5B21B6', fontFamily: 'monospace' }}>
+                        {item.text}
+                      </p>
+                    </div>
+                    <p style={{ fontSize: '9px', color: '#8B5CF6' }}>{item.label}</p>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: '11px', color: '#8B5CF6', textAlign: 'center' }}>
+                → Gradually corrupt text by masking/replacing tokens with noise
+              </p>
+            </div>
+
+            {/* Reverse Process */}
+            <div style={{ marginBottom: '12px' }}>
+              <p style={{ fontSize: '14px', fontWeight: '600', color: '#10B981', marginBottom: '8px' }}>Reverse Process (Generation):</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                {[
+                  { text: '"############"', level: 0, label: 'Start with noise' },
+                  { text: '"T## d&g #####"', level: 1, label: '25% clear' },
+                  { text: '"The d&g runs"', level: 2, label: '50% clear' },
+                  { text: '"The dog runs"', level: 3, label: '75% clear' },
+                  { text: '"The dog runs"', level: 4, label: 'New text!' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{ textAlign: 'center', flex: 1 }}>
+                    <div style={{ 
+                      padding: '8px', 
+                      backgroundColor: `rgba(16, 185, 129, ${0.1 + (4-item.level) * 0.2})`,
+                      borderRadius: '6px',
+                      border: `2px solid rgba(16, 185, 129, ${0.3 + (4-item.level) * 0.2})`,
+                      marginBottom: '4px',
+                      minHeight: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <p style={{ fontSize: '11px', fontWeight: '600', color: '#047857', fontFamily: 'monospace' }}>
+                        {item.text}
+                      </p>
+                    </div>
+                    <p style={{ fontSize: '9px', color: '#10B981' }}>{item.label}</p>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: '11px', color: '#10B981', textAlign: 'center' }}>
+                ← Model predicts original tokens step by step, creating NEW coherent text
+              </p>
+            </div>
+
+            <div style={{ backgroundColor: '#ECFDF5', padding: '8px', borderRadius: '4px', fontSize: '12px', color: '#14532D' }}>
+              <p><strong>Key Insight:</strong> Notice how we started with "cat sleeps" but generated "dog runs"!</p>
+              <p>• <strong>Training:</strong> Learn to predict which tokens were corrupted at each noise level</p>
+              <p>• <strong>Generation:</strong> Start with random noise, iteratively predict clean tokens</p>
+              <p>• <strong>Result:</strong> Generates completely new, grammatically correct sentences</p>
             </div>
           </div>
         )}
