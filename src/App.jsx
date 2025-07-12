@@ -958,7 +958,7 @@ const App = () => {
         </div>
       </div>
 
-      <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '24px', paddingTop: '120px' }}>
+      <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '24px', paddingTop: '140px', paddingRight: '200px' }}>
         <h1 style={{ fontSize: '32px', fontWeight: 'bold', textAlign: 'center', marginBottom: '8px', color: '#111827' }}>
           {t.title}
         </h1>
