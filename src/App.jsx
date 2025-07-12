@@ -301,16 +301,17 @@ const App = () => {
           background: 'linear-gradient(135deg, #F3E8FF 0%, #FECACA 100%)', 
           borderRadius: '8px', 
           padding: '20px',
-          height: '280px',
+          paddingBottom: '80px', // More space for progress bar
+          height: '320px',
           overflow: 'hidden'
         }}>
-          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 400 220">
-            {/* Noise particles - positioned in upper area only */}
+          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 400 260">
+            {/* Noise particles - scattered naturally */}
             {generateNoise(42, noiseIntensity).map((point, idx) => (
               <circle
                 key={idx}
                 cx={point.x}
-                cy={Math.min(point.y, 140)} // Keep particles in upper area only, away from progress bar
+                cy={point.y} // Natural scatter for Gaussian noise
                 r={2}
                 fill="#8B5CF6"
                 opacity={noiseIntensity * 0.3}
@@ -337,7 +338,7 @@ const App = () => {
             </g>
           </svg>
           
-          <div style={{ position: 'absolute', bottom: '16px', left: '20px', right: '20px' }}>
+          <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}>
             <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.98)', borderRadius: '8px', padding: '12px', backdropFilter: 'blur(10px)', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}>
               <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>
                 {language === 'ko' ? 
