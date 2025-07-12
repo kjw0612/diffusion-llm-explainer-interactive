@@ -300,17 +300,17 @@ const App = () => {
           position: 'relative', 
           background: 'linear-gradient(135deg, #F3E8FF 0%, #FECACA 100%)', 
           borderRadius: '8px', 
-          padding: '32px',
-          height: '320px',
+          padding: '20px',
+          height: '280px',
           overflow: 'hidden'
         }}>
-          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 400 300">
-            {/* Noise particles */}
+          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 400 220">
+            {/* Noise particles - positioned in upper area only */}
             {generateNoise(42, noiseIntensity).map((point, idx) => (
               <circle
                 key={idx}
                 cx={point.x}
-                cy={point.y}
+                cy={Math.min(point.y, 180)} // Keep particles in upper area
                 r={2}
                 fill="#8B5CF6"
                 opacity={noiseIntensity * 0.3}
@@ -323,22 +323,22 @@ const App = () => {
             {/* Emerging image (cat) */}
             <g opacity={imageClarity}>
               {/* Cat body */}
-              <ellipse cx="200" cy="180" rx="60" ry="40" fill="#4B5563" />
+              <ellipse cx="200" cy="130" rx="50" ry="30" fill="#4B5563" />
               {/* Cat head */}
-              <circle cx="200" cy="140" r="35" fill="#4B5563" />
+              <circle cx="200" cy="100" r="25" fill="#4B5563" />
               {/* Ears */}
-              <path d="M 170 130 L 165 110 L 180 120 Z" fill="#4B5563" />
-              <path d="M 230 130 L 235 110 L 220 120 Z" fill="#4B5563" />
+              <path d="M 180 90 L 175 75 L 190 82 Z" fill="#4B5563" />
+              <path d="M 220 90 L 225 75 L 210 82 Z" fill="#4B5563" />
               {/* Eyes */}
-              <circle cx="185" cy="135" r="5" fill="#10B981" />
-              <circle cx="215" cy="135" r="5" fill="#10B981" />
+              <circle cx="190" cy="98" r="3" fill="#10B981" />
+              <circle cx="210" cy="98" r="3" fill="#10B981" />
               {/* Tail */}
-              <path d="M 260 180 Q 280 160 270 140" stroke="#4B5563" strokeWidth="15" fill="none" strokeLinecap="round" />
+              <path d="M 250 130 Q 265 115 260 100" stroke="#4B5563" strokeWidth="10" fill="none" strokeLinecap="round" />
             </g>
           </svg>
           
-          <div style={{ position: 'absolute', bottom: '16px', left: '16px', right: '16px' }}>
-            <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px', padding: '12px', backdropFilter: 'blur(10px)' }}>
+          <div style={{ position: 'absolute', bottom: '12px', left: '16px', right: '16px' }}>
+            <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderRadius: '8px', padding: '10px', backdropFilter: 'blur(10px)' }}>
               <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>
                 {language === 'ko' ? 
                   `노이즈 제거 단계: ${animationStep}/${maxSteps}` :
@@ -363,105 +363,85 @@ const App = () => {
 
         {advancedMode && (
           <div style={{ backgroundColor: '#FAF5FF', padding: '16px', borderRadius: '8px', border: '1px solid #E9D5FF' }}>
-            <p style={{ fontWeight: '600', marginBottom: '12px', color: '#6B21A8' }}>Diffusion Process - Step by Step:</p>
+            <p style={{ fontWeight: '600', marginBottom: '12px', color: '#6B21A8' }}>Text Diffusion Process - How it Works:</p>
             
             {/* Forward Process */}
             <div style={{ marginBottom: '16px' }}>
               <p style={{ fontSize: '14px', fontWeight: '600', color: '#8B5CF6', marginBottom: '8px' }}>Forward Process (Training):</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px', marginBottom: '8px' }}>
-                {[0, 1, 2, 3, 4].map((step) => {
-                  const noiseLevel = step / 4;
-                  const clarity = 1 - noiseLevel;
-                  return (
-                    <div key={step} style={{ textAlign: 'center' }}>
-                      <div style={{ 
-                        width: '50px', 
-                        height: '50px', 
-                        backgroundColor: `rgb(${Math.round(139 + (107 - 139) * noiseLevel)}, ${Math.round(92 + (115 - 92) * noiseLevel)}, ${Math.round(246 + (128 - 246) * noiseLevel)})`,
-                        borderRadius: '8px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        fontSize: '10px',
-                        fontWeight: 'bold',
-                        margin: '0 auto 4px',
-                        position: 'relative',
-                        overflow: 'hidden'
-                      }}>
-                        <div style={{
-                          position: 'absolute',
-                          width: '100%',
-                          height: '100%',
-                          background: `radial-gradient(circle, transparent ${Math.round(clarity * 70)}%, rgba(255,255,255,${noiseLevel * 0.3}) 100%)`,
-                          borderRadius: '8px'
-                        }} />
-                        {step === 0 ? 'Cat' : step === 4 ? '???' : ''}
-                      </div>
-                      <p style={{ fontSize: '10px', color: '#6B21A8' }}>t={step}</p>
-                      <p style={{ fontSize: '8px', color: '#8B5CF6' }}>
-                        {step === 0 ? 'Original' : step === 4 ? 'Pure Noise' : `${Math.round(noiseLevel * 100)}% noise`}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                {[
+                  { text: '"The cat sleeps"', level: 0, label: 'Original Text' },
+                  { text: '"The c&t sl##ps"', level: 1, label: '25% corrupted' },
+                  { text: '"T## #&t ##e#ps"', level: 2, label: '50% corrupted' },
+                  { text: '"### ### #####"', level: 3, label: '75% corrupted' },
+                  { text: '"############"', level: 4, label: 'Pure noise' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{ textAlign: 'center', flex: 1 }}>
+                    <div style={{ 
+                      padding: '8px', 
+                      backgroundColor: `rgba(139, 92, 246, ${0.1 + item.level * 0.2})`,
+                      borderRadius: '6px',
+                      border: `2px solid rgba(139, 92, 246, ${0.3 + item.level * 0.2})`,
+                      marginBottom: '4px',
+                      minHeight: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <p style={{ fontSize: '11px', fontWeight: '600', color: '#5B21B6', fontFamily: 'monospace' }}>
+                        {item.text}
                       </p>
                     </div>
-                  );
-                })}
+                    <p style={{ fontSize: '9px', color: '#8B5CF6' }}>{item.label}</p>
+                  </div>
+                ))}
               </div>
               <p style={{ fontSize: '11px', color: '#8B5CF6', textAlign: 'center' }}>
-                → Adding noise step by step until original information is completely lost
+                → Gradually corrupt text by masking/replacing tokens with noise
               </p>
             </div>
 
             {/* Reverse Process */}
             <div style={{ marginBottom: '12px' }}>
               <p style={{ fontSize: '14px', fontWeight: '600', color: '#10B981', marginBottom: '8px' }}>Reverse Process (Generation):</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px', marginBottom: '8px' }}>
-                {[4, 3, 2, 1, 0].map((step, idx) => {
-                  const denoiseLevel = idx / 4;
-                  const clarity = denoiseLevel;
-                  return (
-                    <div key={step} style={{ textAlign: 'center' }}>
-                      <div style={{ 
-                        width: '50px', 
-                        height: '50px', 
-                        backgroundColor: `rgb(${Math.round(107 + (16 - 107) * clarity)}, ${Math.round(115 + (185 - 115) * clarity)}, ${Math.round(128 + (129 - 128) * clarity)})`,
-                        borderRadius: '8px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        fontSize: '10px',
-                        fontWeight: 'bold',
-                        margin: '0 auto 4px',
-                        position: 'relative',
-                        overflow: 'hidden'
-                      }}>
-                        <div style={{
-                          position: 'absolute',
-                          width: '100%',
-                          height: '100%',
-                          background: `radial-gradient(circle, transparent ${Math.round(clarity * 70)}%, rgba(255,255,255,${(1-clarity) * 0.3}) 100%)`,
-                          borderRadius: '8px'
-                        }} />
-                        {idx === 4 ? 'Dog' : idx === 0 ? '???' : ''}
-                      </div>
-                      <p style={{ fontSize: '10px', color: '#6B21A8' }}>t={step}</p>
-                      <p style={{ fontSize: '8px', color: '#10B981' }}>
-                        {idx === 4 ? 'Generated!' : idx === 0 ? 'Start Noise' : `${Math.round(clarity * 100)}% clear`}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                {[
+                  { text: '"############"', level: 0, label: 'Start with noise' },
+                  { text: '"T## d&g #####"', level: 1, label: '25% clear' },
+                  { text: '"The d&g runs"', level: 2, label: '50% clear' },
+                  { text: '"The dog runs"', level: 3, label: '75% clear' },
+                  { text: '"The dog runs"', level: 4, label: 'New text!' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{ textAlign: 'center', flex: 1 }}>
+                    <div style={{ 
+                      padding: '8px', 
+                      backgroundColor: `rgba(16, 185, 129, ${0.1 + (4-item.level) * 0.2})`,
+                      borderRadius: '6px',
+                      border: `2px solid rgba(16, 185, 129, ${0.3 + (4-item.level) * 0.2})`,
+                      marginBottom: '4px',
+                      minHeight: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <p style={{ fontSize: '11px', fontWeight: '600', color: '#047857', fontFamily: 'monospace' }}>
+                        {item.text}
                       </p>
                     </div>
-                  );
-                })}
+                    <p style={{ fontSize: '9px', color: '#10B981' }}>{item.label}</p>
+                  </div>
+                ))}
               </div>
               <p style={{ fontSize: '11px', color: '#10B981', textAlign: 'center' }}>
-                ← Neural network removes noise step by step to generate new content
+                ← Model predicts original tokens step by step, creating NEW coherent text
               </p>
             </div>
 
             <div style={{ backgroundColor: '#F3E8FF', padding: '8px', borderRadius: '4px', fontSize: '12px', color: '#6B21A8' }}>
-              <p><strong>Key Insight:</strong> The network learns to reverse the corruption process</p>
-              <p>• <strong>Training:</strong> Learn to predict what noise was added at each step</p>
-              <p>• <strong>Generation:</strong> Start with random noise, iteratively remove predicted noise</p>
-              <p>• <strong>Result:</strong> Can generate completely new, realistic content</p>
+              <p><strong>Key Insight:</strong> Notice how we started with "cat sleeps" but generated "dog runs"!</p>
+              <p>• <strong>Training:</strong> Learn to predict which tokens were corrupted at each noise level</p>
+              <p>• <strong>Generation:</strong> Start with random noise, iteratively predict clean tokens</p>
+              <p>• <strong>Result:</strong> Generates completely new, grammatically correct sentences</p>
             </div>
           </div>
         )}
