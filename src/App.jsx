@@ -185,7 +185,7 @@ const App = () => {
           <p style={{ fontWeight: '500', color: '#92400E', marginBottom: '8px' }}>
             {language === 'ko' ? '주요 특징:' : language === 'zh' ? '关键特征:' : 'Key Characteristics:'}
           </p>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#92400E' }}>
+          <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#92400E', listStyle: 'none', paddingLeft: 0 }}>
             {language === 'ko' ? (
               <>
                 <li>• 왼쪽에서 오른쪽으로 한 번에 하나의 토큰 생성</li>
@@ -304,7 +304,7 @@ const App = () => {
           <p style={{ fontWeight: '500', color: '#6B21A8', marginBottom: '8px' }}>
             {language === 'ko' ? '작동 원리:' : language === 'zh' ? '工作原理:' : 'How it works:'}
           </p>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#6B21A8' }}>
+          <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#6B21A8', listStyle: 'none', paddingLeft: 0 }}>
             {language === 'ko' ? (
               <>
                 <li>• 순수한 무작위 노이즈에서 시작</li>
@@ -404,7 +404,7 @@ const App = () => {
             <p style={{ fontWeight: '500', color: '#1E40AF', marginBottom: '8px' }}>
               {language === 'ko' ? 'LLM에서:' : language === 'zh' ? '从LLM:' : 'From LLMs:'}
             </p>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#1E40AF' }}>
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#1E40AF', listStyle: 'none', paddingLeft: 0 }}>
               {language === 'ko' ? (
                 <>
                   <li>• 언어 이해 능력</li>
@@ -431,7 +431,7 @@ const App = () => {
             <p style={{ fontWeight: '500', color: '#6B21A8', marginBottom: '8px' }}>
               {language === 'ko' ? '확산 모델에서:' : language === 'zh' ? '从扩散模型:' : 'From Diffusion:'}
             </p>
-            <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#6B21A8' }}>
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#6B21A8', listStyle: 'none', paddingLeft: 0 }}>
               {language === 'ko' ? (
                 <>
                   <li>• 병렬 생성</li>
