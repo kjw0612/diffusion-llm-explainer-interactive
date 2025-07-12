@@ -791,7 +791,7 @@ const App = () => {
         right: '20px', 
         display: 'flex', 
         gap: '8px',
-        zIndex: 100
+        zIndex: 9999
       }}>
         <button
           onClick={() => setAdvancedMode(!advancedMode)}
