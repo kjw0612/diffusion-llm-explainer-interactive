@@ -54,24 +54,24 @@ const App = () => {
         </div>
         
         <div className="relative">
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap items-center gap-2">
             {tokens.map((token, idx) => (
               <div
                 key={idx}
                 className={`
                   px-4 py-2 rounded-lg font-mono text-lg transition-all duration-500
-                  ${idx < animationStep ? 
+                  ${idx <= animationStep ? 
                     'bg-blue-500 text-white scale-105 shadow-lg' : 
                     'bg-gray-200 text-gray-400 scale-95 opacity-50'}
                 `}
               >
-                {idx < animationStep ? token : "?"}
+                {idx <= animationStep ? token : "?"}
               </div>
             ))}
           </div>
           
           {animationStep > 0 && animationStep < tokens.length && (
-            <div className="absolute -bottom-12 left-0 right-0 text-center">
+            <div className="mt-4 text-center">
               <p className="text-sm text-gray-600">
                 Generating token {animationStep + 1} based on previous tokens...
               </p>
@@ -79,7 +79,7 @@ const App = () => {
           )}
         </div>
 
-        <div className="mt-16 bg-yellow-50 p-4 rounded-lg">
+        <div className="bg-yellow-50 p-4 rounded-lg">
           <p className="font-medium text-yellow-800 mb-2">Key Characteristics:</p>
           <ul className="space-y-1 text-sm text-yellow-700">
             <li>• Generates one token at a time, left to right</li>
@@ -113,8 +113,8 @@ const App = () => {
 
     return (
       <div className="space-y-6">
-        <div className="relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-8 h-80">
-          <svg className="absolute inset-0 w-full h-full">
+        <div className="relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-8" style={{height: '320px'}}>
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 300">
             {/* Noise particles */}
             {generateNoise(42, noiseIntensity).map((point, idx) => (
               <circle
@@ -146,7 +146,7 @@ const App = () => {
           </svg>
           
           <div className="absolute bottom-4 left-4 right-4">
-            <div className="bg-white/90 backdrop-blur rounded-lg p-3">
+            <div className="bg-white bg-opacity-90 rounded-lg p-3">
               <p className="text-sm font-medium mb-1">Denoising Step: {animationStep}/{maxSteps}</p>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div 
@@ -246,79 +246,81 @@ const App = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-        Understanding LLMs and Diffusion Models
-      </h1>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto p-6">
+        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+          Understanding LLMs and Diffusion Models
+        </h1>
 
-      {/* Navigation */}
-      <div className="flex justify-center space-x-4 mb-8">
-        {sections.map((section, idx) => (
-          <button
-            key={idx}
-            onClick={() => {
-              setActiveSection(idx);
-              resetAnimation();
-            }}
-            className={`
-              px-6 py-3 rounded-lg font-medium transition-all
-              ${activeSection === idx 
-                ? 'bg-blue-500 text-white shadow-lg scale-105' 
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}
-            `}
-          >
-            <div>{section.title}</div>
-            <div className="text-xs opacity-75">{section.subtitle}</div>
-          </button>
-        ))}
-      </div>
-
-      {/* Content */}
-      <div className="bg-white rounded-xl shadow-xl p-8 min-h-[500px]">
-        <h2 className="text-2xl font-bold mb-2">{sections[activeSection].title}</h2>
-        <p className="text-gray-600 mb-6">{sections[activeSection].subtitle}</p>
-
-        <div className="mb-6">
-          {activeSection === 0 && renderLLMAnimation()}
-          {activeSection === 1 && renderDiffusionAnimation()}
-          {activeSection === 2 && renderDiffusionLLMAnimation()}
+        {/* Navigation */}
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
+          {sections.map((section, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                setActiveSection(idx);
+                resetAnimation();
+              }}
+              className={`
+                px-6 py-3 rounded-lg font-medium transition-all
+                ${activeSection === idx 
+                  ? 'bg-blue-500 text-white shadow-lg scale-105' 
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}
+              `}
+            >
+              <div>{section.title}</div>
+              <div className="text-xs opacity-75">{section.subtitle}</div>
+            </button>
+          ))}
         </div>
 
-        {/* Controls */}
-        <div className="flex justify-center space-x-4 mt-8">
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-            <span>{isPlaying ? 'Pause' : 'Play'}</span>
-          </button>
-          
-          <button
-            onClick={resetAnimation}
-            className="flex items-center space-x-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
-          >
-            <RotateCcw size={20} />
-            <span>Reset</span>
-          </button>
-        </div>
-      </div>
+        {/* Content */}
+        <div className="bg-white rounded-xl shadow-xl p-8" style={{minHeight: '500px'}}>
+          <h2 className="text-2xl font-bold mb-2">{sections[activeSection].title}</h2>
+          <p className="text-gray-600 mb-6">{sections[activeSection].subtitle}</p>
 
-      {/* Summary */}
-      <div className="mt-8 bg-gray-50 rounded-lg p-6">
-        <h3 className="font-bold text-lg mb-3">Quick Summary:</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p className="font-medium text-blue-600">Traditional LLMs:</p>
-            <p className="text-gray-600">Generate text one token at a time, like typing on a keyboard.</p>
+          <div className="mb-6">
+            {activeSection === 0 && renderLLMAnimation()}
+            {activeSection === 1 && renderDiffusionAnimation()}
+            {activeSection === 2 && renderDiffusionLLMAnimation()}
           </div>
-          <div>
-            <p className="font-medium text-purple-600">Diffusion Models:</p>
-            <p className="text-gray-600">Start with noise and gradually refine into clear output.</p>
+
+          {/* Controls */}
+          <div className="flex justify-center gap-4 mt-8">
+            <button
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+              <span>{isPlaying ? 'Pause' : 'Play'}</span>
+            </button>
+            
+            <button
+              onClick={resetAnimation}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+            >
+              <RotateCcw size={20} />
+              <span>Reset</span>
+            </button>
           </div>
-          <div>
-            <p className="font-medium text-green-600">Diffusion LLMs:</p>
-            <p className="text-gray-600">Combine both approaches for faster, more flexible text generation.</p>
+        </div>
+
+        {/* Summary */}
+        <div className="mt-8 bg-gray-50 rounded-lg p-6">
+          <h3 className="font-bold text-lg mb-3">Quick Summary:</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <p className="font-medium text-blue-600">Traditional LLMs:</p>
+              <p className="text-gray-600">Generate text one token at a time, like typing on a keyboard.</p>
+            </div>
+            <div>
+              <p className="font-medium text-purple-600">Diffusion Models:</p>
+              <p className="text-gray-600">Start with noise and gradually refine into clear output.</p>
+            </div>
+            <div>
+              <p className="font-medium text-green-600">Diffusion LLMs:</p>
+              <p className="text-gray-600">Combine both approaches for faster, more flexible text generation.</p>
+            </div>
           </div>
         </div>
       </div>
