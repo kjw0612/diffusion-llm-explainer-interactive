@@ -858,11 +858,16 @@ const App = () => {
       {/* Language Toggle */}
       <div style={{ 
         position: 'fixed', 
-        top: '20px', 
-        right: '20px', 
+        top: '16px', 
+        right: '16px', 
         display: 'flex', 
         gap: '8px',
-        zIndex: 9999
+        zIndex: 9999,
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(10px)',
+        borderRadius: '12px',
+        padding: '8px',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
       }}>
         <button
           onClick={() => setAdvancedMode(!advancedMode)}
@@ -953,7 +958,7 @@ const App = () => {
         </div>
       </div>
 
-      <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '24px', paddingTop: '80px' }}>
+      <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '24px', paddingTop: '120px' }}>
         <h1 style={{ fontSize: '32px', fontWeight: 'bold', textAlign: 'center', marginBottom: '8px', color: '#111827' }}>
           {t.title}
         </h1>
