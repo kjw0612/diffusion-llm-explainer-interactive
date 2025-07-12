@@ -47,23 +47,29 @@ const App = () => {
     const prompt = "Complete: The cat";
     
     return (
-      <div className="space-y-6">
-        <div className="bg-blue-50 p-4 rounded-lg">
-          <p className="text-sm font-medium text-blue-800">Prompt:</p>
-          <p className="text-lg">{prompt}</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div style={{ backgroundColor: '#EBF8FF', padding: '16px', borderRadius: '8px' }}>
+          <p style={{ fontSize: '14px', fontWeight: '500', color: '#2B6CB0' }}>Prompt:</p>
+          <p style={{ fontSize: '18px' }}>{prompt}</p>
         </div>
         
-        <div className="relative">
-          <div className="flex flex-wrap items-center gap-2">
+        <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
             {tokens.map((token, idx) => (
               <div
                 key={idx}
-                className={`
-                  px-4 py-2 rounded-lg font-mono text-lg transition-all duration-500
-                  ${idx <= animationStep ? 
-                    'bg-blue-500 text-white scale-105 shadow-lg' : 
-                    'bg-gray-200 text-gray-400 scale-95 opacity-50'}
-                `}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  fontFamily: 'monospace',
+                  fontSize: '18px',
+                  transition: 'all 0.5s',
+                  backgroundColor: idx <= animationStep ? '#3B82F6' : '#E5E7EB',
+                  color: idx <= animationStep ? 'white' : '#9CA3AF',
+                  transform: idx <= animationStep ? 'scale(1.05)' : 'scale(0.95)',
+                  boxShadow: idx <= animationStep ? '0 10px 15px -3px rgba(0, 0, 0, 0.1)' : 'none',
+                  opacity: idx <= animationStep ? 1 : 0.5
+                }}
               >
                 {idx <= animationStep ? token : "?"}
               </div>
@@ -71,17 +77,17 @@ const App = () => {
           </div>
           
           {animationStep > 0 && animationStep < tokens.length && (
-            <div className="mt-4 text-center">
-              <p className="text-sm text-gray-600">
+            <div style={{ marginTop: '16px', textAlign: 'center' }}>
+              <p style={{ fontSize: '14px', color: '#6B7280' }}>
                 Generating token {animationStep + 1} based on previous tokens...
               </p>
             </div>
           )}
         </div>
 
-        <div className="bg-yellow-50 p-4 rounded-lg">
-          <p className="font-medium text-yellow-800 mb-2">Key Characteristics:</p>
-          <ul className="space-y-1 text-sm text-yellow-700">
+        <div style={{ backgroundColor: '#FEF3C7', padding: '16px', borderRadius: '8px' }}>
+          <p style={{ fontWeight: '500', color: '#92400E', marginBottom: '8px' }}>Key Characteristics:</p>
+          <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#92400E' }}>
             <li>• Generates one token at a time, left to right</li>
             <li>• Each token depends on all previous tokens</li>
             <li>• Cannot go back and fix earlier mistakes</li>
@@ -112,9 +118,15 @@ const App = () => {
     const imageClarity = progress;
 
     return (
-      <div className="space-y-6">
-        <div className="relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-8" style={{height: '320px'}}>
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 300">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div style={{ 
+          position: 'relative', 
+          background: 'linear-gradient(to bottom right, #F3E8FF, #FECACA)', 
+          borderRadius: '8px', 
+          padding: '32px',
+          height: '320px'
+        }}>
+          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 400 300">
             {/* Noise particles */}
             {generateNoise(42, noiseIntensity).map((point, idx) => (
               <circle
@@ -124,7 +136,6 @@ const App = () => {
                 r={2}
                 fill="#8B5CF6"
                 opacity={noiseIntensity * 0.3}
-                className="animate-pulse"
               />
             ))}
             
@@ -145,22 +156,29 @@ const App = () => {
             </g>
           </svg>
           
-          <div className="absolute bottom-4 left-4 right-4">
-            <div className="bg-white bg-opacity-90 rounded-lg p-3">
-              <p className="text-sm font-medium mb-1">Denoising Step: {animationStep}/{maxSteps}</p>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+          <div style={{ position: 'absolute', bottom: '16px', left: '16px', right: '16px' }}>
+            <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', borderRadius: '8px', padding: '12px' }}>
+              <p style={{ fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>
+                Denoising Step: {animationStep}/{maxSteps}
+              </p>
+              <div style={{ width: '100%', backgroundColor: '#E5E7EB', borderRadius: '9999px', height: '8px' }}>
                 <div 
-                  className="bg-purple-500 h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${progress * 100}%` }}
+                  style={{ 
+                    backgroundColor: '#8B5CF6', 
+                    height: '8px', 
+                    borderRadius: '9999px',
+                    transition: 'all 0.5s',
+                    width: `${progress * 100}%`
+                  }}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-purple-50 p-4 rounded-lg">
-          <p className="font-medium text-purple-800 mb-2">How it works:</p>
-          <ul className="space-y-1 text-sm text-purple-700">
+        <div style={{ backgroundColor: '#F3E8FF', padding: '16px', borderRadius: '8px' }}>
+          <p style={{ fontWeight: '500', color: '#6B21A8', marginBottom: '8px' }}>How it works:</p>
+          <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#6B21A8' }}>
             <li>• Starts with pure random noise</li>
             <li>• Gradually removes noise through multiple steps</li>
             <li>• Each step refines the entire output simultaneously</li>
@@ -188,46 +206,55 @@ const App = () => {
     };
 
     return (
-      <div className="space-y-6">
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg">
-          <p className="text-sm font-medium text-gray-700 mb-4">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div style={{ 
+          background: 'linear-gradient(to right, #EBF8FF, #F3E8FF)', 
+          padding: '24px', 
+          borderRadius: '8px' 
+        }}>
+          <p style={{ fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '16px' }}>
             Refining entire sequence in parallel:
           </p>
           
-          <div className="grid grid-cols-3 gap-3">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
             {words.map((word, idx) => (
               <div
                 key={idx}
-                className={`
-                  px-3 py-2 rounded font-mono text-center transition-all duration-700
-                  ${progress > 0.7 ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-800'}
-                `}
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                  textAlign: 'center',
+                  transition: 'all 0.7s',
+                  backgroundColor: progress > 0.7 ? '#10B981' : '#D1D5DB',
+                  color: progress > 0.7 ? 'white' : '#1F2937'
+                }}
               >
                 {getNoisyText(word, progress)}
               </div>
             ))}
           </div>
           
-          <div className="mt-4 text-center">
-            <p className="text-sm text-gray-600">
+          <div style={{ marginTop: '16px', textAlign: 'center' }}>
+            <p style={{ fontSize: '14px', color: '#6B7280' }}>
               Step {animationStep}/8 - Clarity: {Math.round(progress * 100)}%
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <p className="font-medium text-blue-800 mb-2">From LLMs:</p>
-            <ul className="space-y-1 text-sm text-blue-700">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+          <div style={{ backgroundColor: '#EBF8FF', padding: '16px', borderRadius: '8px' }}>
+            <p style={{ fontWeight: '500', color: '#1E40AF', marginBottom: '8px' }}>From LLMs:</p>
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#1E40AF' }}>
               <li>• Language understanding</li>
               <li>• Pretrained knowledge</li>
               <li>• Text generation ability</li>
             </ul>
           </div>
           
-          <div className="bg-purple-50 p-4 rounded-lg">
-            <p className="font-medium text-purple-800 mb-2">From Diffusion:</p>
-            <ul className="space-y-1 text-sm text-purple-700">
+          <div style={{ backgroundColor: '#F3E8FF', padding: '16px', borderRadius: '8px' }}>
+            <p style={{ fontWeight: '500', color: '#6B21A8', marginBottom: '8px' }}>From Diffusion:</p>
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '14px', color: '#6B21A8' }}>
               <li>• Parallel generation</li>
               <li>• Better controllability</li>
               <li>• Can fix mistakes anywhere</li>
@@ -235,9 +262,9 @@ const App = () => {
           </div>
         </div>
 
-        <div className="bg-green-50 p-4 rounded-lg">
-          <p className="font-medium text-green-800 mb-2">Result:</p>
-          <p className="text-sm text-green-700">
+        <div style={{ backgroundColor: '#D1FAE5', padding: '16px', borderRadius: '8px' }}>
+          <p style={{ fontWeight: '500', color: '#065F46', marginBottom: '8px' }}>Result:</p>
+          <p style={{ fontSize: '14px', color: '#065F46' }}>
             4-5x faster generation for long texts while maintaining quality!
           </p>
         </div>
@@ -246,14 +273,14 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+    <div style={{ minHeight: '100vh', backgroundColor: '#F9FAFB' }}>
+      <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '24px' }}>
+        <h1 style={{ fontSize: '30px', fontWeight: 'bold', textAlign: 'center', marginBottom: '32px', color: '#1F2937' }}>
           Understanding LLMs and Diffusion Models
         </h1>
 
         {/* Navigation */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '16px', marginBottom: '32px' }}>
           {sections.map((section, idx) => (
             <button
               key={idx}
@@ -261,35 +288,64 @@ const App = () => {
                 setActiveSection(idx);
                 resetAnimation();
               }}
-              className={`
-                px-6 py-3 rounded-lg font-medium transition-all
-                ${activeSection === idx 
-                  ? 'bg-blue-500 text-white shadow-lg scale-105' 
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}
-              `}
+              style={{
+                padding: '12px 24px',
+                borderRadius: '8px',
+                fontWeight: '500',
+                transition: 'all 0.3s',
+                backgroundColor: activeSection === idx ? '#3B82F6' : '#E5E7EB',
+                color: activeSection === idx ? 'white' : '#374151',
+                transform: activeSection === idx ? 'scale(1.05)' : 'scale(1)',
+                boxShadow: activeSection === idx ? '0 10px 15px -3px rgba(0, 0, 0, 0.1)' : 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
             >
               <div>{section.title}</div>
-              <div className="text-xs opacity-75">{section.subtitle}</div>
+              <div style={{ fontSize: '12px', opacity: 0.75 }}>{section.subtitle}</div>
             </button>
           ))}
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-xl shadow-xl p-8" style={{minHeight: '500px'}}>
-          <h2 className="text-2xl font-bold mb-2">{sections[activeSection].title}</h2>
-          <p className="text-gray-600 mb-6">{sections[activeSection].subtitle}</p>
+        <div style={{ 
+          backgroundColor: 'white', 
+          borderRadius: '12px', 
+          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)', 
+          padding: '32px',
+          minHeight: '500px'
+        }}>
+          <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '8px' }}>
+            {sections[activeSection].title}
+          </h2>
+          <p style={{ color: '#6B7280', marginBottom: '24px' }}>
+            {sections[activeSection].subtitle}
+          </p>
 
-          <div className="mb-6">
+          <div style={{ marginBottom: '24px' }}>
             {activeSection === 0 && renderLLMAnimation()}
             {activeSection === 1 && renderDiffusionAnimation()}
             {activeSection === 2 && renderDiffusionLLMAnimation()}
           </div>
 
           {/* Controls */}
-          <div className="flex justify-center gap-4 mt-8">
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginTop: '32px' }}>
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                backgroundColor: '#3B82F6',
+                color: 'white',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#2563EB'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#3B82F6'}
             >
               {isPlaying ? <Pause size={20} /> : <Play size={20} />}
               <span>{isPlaying ? 'Pause' : 'Play'}</span>
@@ -297,7 +353,20 @@ const App = () => {
             
             <button
               onClick={resetAnimation}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                backgroundColor: '#6B7280',
+                color: 'white',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#4B5563'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#6B7280'}
             >
               <RotateCcw size={20} />
               <span>Reset</span>
@@ -306,20 +375,20 @@ const App = () => {
         </div>
 
         {/* Summary */}
-        <div className="mt-8 bg-gray-50 rounded-lg p-6">
-          <h3 className="font-bold text-lg mb-3">Quick Summary:</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+        <div style={{ marginTop: '32px', backgroundColor: '#F9FAFB', borderRadius: '8px', padding: '24px' }}>
+          <h3 style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '12px' }}>Quick Summary:</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px', fontSize: '14px' }}>
             <div>
-              <p className="font-medium text-blue-600">Traditional LLMs:</p>
-              <p className="text-gray-600">Generate text one token at a time, like typing on a keyboard.</p>
+              <p style={{ fontWeight: '500', color: '#2563EB' }}>Traditional LLMs:</p>
+              <p style={{ color: '#6B7280' }}>Generate text one token at a time, like typing on a keyboard.</p>
             </div>
             <div>
-              <p className="font-medium text-purple-600">Diffusion Models:</p>
-              <p className="text-gray-600">Start with noise and gradually refine into clear output.</p>
+              <p style={{ fontWeight: '500', color: '#7C3AED' }}>Diffusion Models:</p>
+              <p style={{ color: '#6B7280' }}>Start with noise and gradually refine into clear output.</p>
             </div>
             <div>
-              <p className="font-medium text-green-600">Diffusion LLMs:</p>
-              <p className="text-gray-600">Combine both approaches for faster, more flexible text generation.</p>
+              <p style={{ fontWeight: '500', color: '#10B981' }}>Diffusion LLMs:</p>
+              <p style={{ color: '#6B7280' }}>Combine both approaches for faster, more flexible text generation.</p>
             </div>
           </div>
         </div>
