@@ -211,16 +211,25 @@ const App = () => {
                       }} />
                     ))}
                   </div>
-                  <p style={{ fontSize: '10px', color: '#075985', marginTop: '4px' }}>
-                    Attends to {idx + 1} token{idx > 0 ? 's' : ''}
-                  </p>
+                  <div style={{ fontSize: '10px', color: '#075985', marginTop: '4px', lineHeight: '1.2' }}>
+                    <p style={{ fontWeight: '600', marginBottom: '2px' }}>Attends to:</p>
+                    <p style={{ color: '#1E40AF' }}>
+                      {displayTokens.slice(0, idx + 1).map((prevToken, prevIdx) => (
+                        <span key={prevIdx}>
+                          "{prevToken}"{prevIdx < idx ? ', ' : ''}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
             <div style={{ backgroundColor: '#EBF8FF', padding: '8px', borderRadius: '4px', fontSize: '12px', color: '#075985' }}>
               <p><strong>Key Insight:</strong> Each token can only "see" previous tokens due to causal masking</p>
+              <p>• <strong>"The"</strong> attends to: just itself</p>
+              <p>• <strong>"cat"</strong> attends to: "The", "cat"</p>
+              <p>• <strong>"sits"</strong> attends to: "The", "cat", "sits"</p>
               <p>• Sequential dependency prevents parallel generation</p>
-              <p>• Each step must wait for the previous one to complete</p>
             </div>
           </div>
         )}
