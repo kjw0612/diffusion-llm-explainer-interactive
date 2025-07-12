@@ -355,89 +355,105 @@ const App = () => {
 
         {advancedMode && (
           <div style={{ backgroundColor: '#FAF5FF', padding: '16px', borderRadius: '8px', border: '1px solid #E9D5FF' }}>
-            <p style={{ fontWeight: '600', marginBottom: '12px', color: '#6B21A8' }}>Diffusion Process Visualization:</p>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ 
-                  width: '60px', 
-                  height: '60px', 
-                  backgroundColor: '#8B5CF6', 
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontSize: '12px',
-                  fontWeight: 'bold'
-                }}>
-                  Clean<br/>Image
-                </div>
-                <p style={{ fontSize: '10px', color: '#6B21A8', marginTop: '4px' }}>t=0</p>
+            <p style={{ fontWeight: '600', marginBottom: '12px', color: '#6B21A8' }}>Diffusion Process - Step by Step:</p>
+            
+            {/* Forward Process */}
+            <div style={{ marginBottom: '16px' }}>
+              <p style={{ fontSize: '14px', fontWeight: '600', color: '#8B5CF6', marginBottom: '8px' }}>Forward Process (Training):</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px', marginBottom: '8px' }}>
+                {[0, 1, 2, 3, 4].map((step) => {
+                  const noiseLevel = step / 4;
+                  const clarity = 1 - noiseLevel;
+                  return (
+                    <div key={step} style={{ textAlign: 'center' }}>
+                      <div style={{ 
+                        width: '50px', 
+                        height: '50px', 
+                        backgroundColor: `rgb(${Math.round(139 + (107 - 139) * noiseLevel)}, ${Math.round(92 + (115 - 92) * noiseLevel)}, ${Math.round(246 + (128 - 246) * noiseLevel)})`,
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '10px',
+                        fontWeight: 'bold',
+                        margin: '0 auto 4px',
+                        position: 'relative',
+                        overflow: 'hidden'
+                      }}>
+                        <div style={{
+                          position: 'absolute',
+                          width: '100%',
+                          height: '100%',
+                          background: `radial-gradient(circle, transparent ${Math.round(clarity * 70)}%, rgba(255,255,255,${noiseLevel * 0.3}) 100%)`,
+                          borderRadius: '8px'
+                        }} />
+                        {step === 0 ? 'Cat' : step === 4 ? '???' : ''}
+                      </div>
+                      <p style={{ fontSize: '10px', color: '#6B21A8' }}>t={step}</p>
+                      <p style={{ fontSize: '8px', color: '#8B5CF6' }}>
+                        {step === 0 ? 'Original' : step === 4 ? 'Pure Noise' : `${Math.round(noiseLevel * 100)}% noise`}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
-              
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <div style={{ width: '8px', height: '2px', backgroundColor: '#8B5CF6' }} />
-                <div style={{ width: '8px', height: '2px', backgroundColor: '#8B5CF6' }} />
-                <div style={{ width: '8px', height: '2px', backgroundColor: '#8B5CF6' }} />
-                <span style={{ fontSize: '12px', color: '#6B21A8' }}>Forward</span>
-              </div>
-              
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ 
-                  width: '60px', 
-                  height: '60px', 
-                  backgroundColor: '#6B7280', 
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontSize: '12px',
-                  fontWeight: 'bold',
-                  position: 'relative'
-                }}>
-                  Noise
-                  <div style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '50%',
-                    background: 'radial-gradient(circle, transparent 30%, rgba(255,255,255,0.2) 70%)'
-                  }} />
-                </div>
-                <p style={{ fontSize: '10px', color: '#6B21A8', marginTop: '4px' }}>t=T</p>
-              </div>
-              
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <span style={{ fontSize: '12px', color: '#10B981' }}>Reverse</span>
-                <div style={{ width: '8px', height: '2px', backgroundColor: '#10B981' }} />
-                <div style={{ width: '8px', height: '2px', backgroundColor: '#10B981' }} />
-                <div style={{ width: '8px', height: '2px', backgroundColor: '#10B981' }} />
-              </div>
-              
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ 
-                  width: '60px', 
-                  height: '60px', 
-                  backgroundColor: '#10B981', 
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontSize: '12px',
-                  fontWeight: 'bold'
-                }}>
-                  Generated<br/>Output
-                </div>
-                <p style={{ fontSize: '10px', color: '#6B21A8', marginTop: '4px' }}>t=0</p>
-              </div>
+              <p style={{ fontSize: '11px', color: '#8B5CF6', textAlign: 'center' }}>
+                → Adding noise step by step until original information is completely lost
+              </p>
             </div>
+
+            {/* Reverse Process */}
+            <div style={{ marginBottom: '12px' }}>
+              <p style={{ fontSize: '14px', fontWeight: '600', color: '#10B981', marginBottom: '8px' }}>Reverse Process (Generation):</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px', marginBottom: '8px' }}>
+                {[4, 3, 2, 1, 0].map((step, idx) => {
+                  const denoiseLevel = idx / 4;
+                  const clarity = denoiseLevel;
+                  return (
+                    <div key={step} style={{ textAlign: 'center' }}>
+                      <div style={{ 
+                        width: '50px', 
+                        height: '50px', 
+                        backgroundColor: `rgb(${Math.round(107 + (16 - 107) * clarity)}, ${Math.round(115 + (185 - 115) * clarity)}, ${Math.round(128 + (129 - 128) * clarity)})`,
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '10px',
+                        fontWeight: 'bold',
+                        margin: '0 auto 4px',
+                        position: 'relative',
+                        overflow: 'hidden'
+                      }}>
+                        <div style={{
+                          position: 'absolute',
+                          width: '100%',
+                          height: '100%',
+                          background: `radial-gradient(circle, transparent ${Math.round(clarity * 70)}%, rgba(255,255,255,${(1-clarity) * 0.3}) 100%)`,
+                          borderRadius: '8px'
+                        }} />
+                        {idx === 4 ? 'Dog' : idx === 0 ? '???' : ''}
+                      </div>
+                      <p style={{ fontSize: '10px', color: '#6B21A8' }}>t={step}</p>
+                      <p style={{ fontSize: '8px', color: '#10B981' }}>
+                        {idx === 4 ? 'Generated!' : idx === 0 ? 'Start Noise' : `${Math.round(clarity * 100)}% clear`}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+              <p style={{ fontSize: '11px', color: '#10B981', textAlign: 'center' }}>
+                ← Neural network removes noise step by step to generate new content
+              </p>
+            </div>
+
             <div style={{ backgroundColor: '#F3E8FF', padding: '8px', borderRadius: '4px', fontSize: '12px', color: '#6B21A8' }}>
-              <p><strong>Key Insight:</strong> Gradual transformation through many small steps</p>
-              <p>• Forward: Add noise until signal becomes pure noise</p>
-              <p>• Reverse: Remove noise step by step to generate new content</p>
-              <p>• Neural network learns to predict and remove noise at each step</p>
+              <p><strong>Key Insight:</strong> The network learns to reverse the corruption process</p>
+              <p>• <strong>Training:</strong> Learn to predict what noise was added at each step</p>
+              <p>• <strong>Generation:</strong> Start with random noise, iteratively remove predicted noise</p>
+              <p>• <strong>Result:</strong> Can generate completely new, realistic content</p>
             </div>
           </div>
         )}
