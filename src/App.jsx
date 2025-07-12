@@ -231,6 +231,14 @@ const App = () => {
               <p>• <strong>"sits"</strong> attends to: "The", "cat", "sits"</p>
               <p>• Sequential dependency prevents parallel generation</p>
             </div>
+            
+            <div style={{ backgroundColor: '#FEF3C7', padding: '8px', borderRadius: '4px', fontSize: '12px', color: '#92400E', marginTop: '8px' }}>
+              <p><strong>What does "attend to self" mean?</strong></p>
+              <p>• The token considers its own meaning and position</p>
+              <p>• Example: "The" token strengthens its role as a determiner</p>
+              <p>• Self-attention helps the model understand each token's function</p>
+              <p>• Even alone, "The" needs to know it's starting a noun phrase</p>
+            </div>
           </div>
         )}
 
